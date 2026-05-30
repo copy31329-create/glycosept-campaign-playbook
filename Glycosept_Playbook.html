@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Glycosept — Campaign Playbook</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tsparticles/2.12.0/tsparticles.bundle.min.js"></script>
+<style>
+  :root{
+    --navy:#1F3864;--blue:#2E75B6;--orange:#C55A11;--red:#BF0000;
+    --green:#215732;--gray:#595959;--teal:#155A5A;--gold:#7A5200;
+    --C2:#155A5A;--C5:#1A3A6B;--C7:#7A5200;
+    --white:#fff;--off:#F8F8F8;--dark:#111;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Segoe UI',Arial,sans-serif;background:#F4F6FA;color:var(--dark);overflow-x:hidden}
+
+  /* ── NAV ── */
+  nav{position:fixed;top:0;left:0;width:220px;height:100vh;background:var(--navy);z-index:100;
+    display:flex;flex-direction:column;padding:24px 0;overflow-y:auto}
+  nav .logo{padding:0 20px 24px;border-bottom:1px solid rgba(255,255,255,.15)}
+  nav .logo span{font-size:22px;font-weight:800;color:#fff;letter-spacing:1px}
+  nav .logo small{display:block;font-size:11px;color:rgba(255,255,255,.5);margin-top:2px}
+  nav a{display:block;padding:10px 20px;color:rgba(255,255,255,.65);font-size:13px;
+    text-decoration:none;border-left:3px solid transparent;transition:.2s}
+  nav a:hover,nav a.active{color:#fff;border-left-color:var(--orange);background:rgba(255,255,255,.06)}
+  nav .nav-label{padding:16px 20px 4px;font-size:10px;color:rgba(255,255,255,.3);
+    text-transform:uppercase;letter-spacing:1px}
+
+  /* ── MAIN ── */
+  main{margin-left:220px;min-height:100vh}
+
+  /* ── HERO ── */
+  #hero{position:relative;height:100vh;background:var(--navy);overflow:hidden;
+    display:flex;flex-direction:column;align-items:center;justify-content:center}
+  #particles-hero{position:absolute;inset:0;width:100%;height:100%}
+  .hero-content{position:relative;z-index:10;text-align:center;padding:40px}
+  .hero-content h1{font-size:clamp(52px,8vw,100px);font-weight:900;color:#fff;
+    letter-spacing:-2px;line-height:1}
+  .hero-content .sub{font-size:clamp(16px,2vw,22px);color:rgba(255,255,255,.7);
+    margin-top:8px;letter-spacing:3px;text-transform:uppercase}
+  .hero-content .divider-line{width:80px;height:4px;background:var(--orange);margin:28px auto}
+  .hero-content .tagline{font-size:16px;color:rgba(255,255,255,.55);font-style:italic}
+  .stats-row{display:flex;gap:0;margin-top:48px;border:1px solid rgba(255,255,255,.15);border-radius:12px;overflow:hidden}
+  .stat-box{flex:1;padding:24px 20px;text-align:center;border-right:1px solid rgba(255,255,255,.12)}
+  .stat-box:last-child{border-right:none}
+  .stat-box .num{font-size:48px;font-weight:800;color:var(--orange);line-height:1}
+  .stat-box .lbl{font-size:12px;color:rgba(255,255,255,.5);margin-top:4px;line-height:1.4}
+
+  /* ── SECTIONS ── */
+  section{padding:60px 48px;border-bottom:1px solid #E0E4EC}
+  section:nth-child(even){background:#fff}
+  .sec-label{display:inline-block;font-size:11px;font-weight:700;letter-spacing:2px;
+    text-transform:uppercase;color:var(--orange);margin-bottom:8px}
+  h2.sec-title{font-size:clamp(28px,3vw,42px);font-weight:800;color:var(--navy);line-height:1.1;margin-bottom:6px}
+  h2.sec-title span{color:var(--orange)}
+  .sec-sub{font-size:15px;color:var(--gray);font-style:italic;margin-bottom:36px}
+
+  /* ── BAND HEADER (concept) ── */
+  .band{border-radius:12px;padding:20px 28px;margin-bottom:24px;display:flex;align-items:center;gap:20px}
+  .band .num-badge{font-size:48px;font-weight:900;opacity:.25;line-height:1}
+  .band .band-title{font-size:28px;font-weight:800;color:#fff;line-height:1.1}
+  .band .band-sub{font-size:14px;color:rgba(255,255,255,.7);margin-top:4px;font-style:italic}
+
+  /* ── CARDS ── */
+  .cards{display:grid;gap:20px}
+  .cards.col2{grid-template-columns:1fr 1fr}
+  .cards.col3{grid-template-columns:1fr 1fr 1fr}
+  .card{border-radius:12px;padding:24px;background:#fff;border:1px solid #E0E4EC}
+  .card .card-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+    color:var(--gray);margin-bottom:8px}
+  .card .card-value{font-size:18px;font-weight:700;color:var(--navy);line-height:1.3}
+  .card .card-sub{font-size:13px;color:var(--gray);margin-top:6px;font-style:italic}
+
+  /* ── HOOK BLOCK ── */
+  .hook-block{border-radius:0 10px 10px 0;padding:20px 24px;margin:16px 0;
+    font-size:15px;line-height:1.7;color:var(--dark);background:#F8F8F8;
+    border-left:5px solid var(--orange);white-space:pre-wrap}
+
+  /* ── PLATFORM STRIP ── */
+  .platform-strip{display:grid;grid-template-columns:110px 1fr;border-radius:10px;overflow:hidden;margin:12px 0;border:1px solid #E0E4EC}
+  .plat-label{display:flex;align-items:center;justify-content:center;padding:16px 10px;
+    font-size:13px;font-weight:700;color:#fff;text-align:center;line-height:1.3}
+  .plat-text{padding:16px 20px;font-size:14px;line-height:1.6;color:var(--dark);
+    background:#fff;white-space:pre-wrap}
+
+  /* ── DO / DON'T ── */
+  .dontdo{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:24px 0}
+  .dont,.do{border-radius:10px;padding:24px}
+  .dont{background:#FFF0F0;border:1px solid #FCCACA}
+  .do{background:#F0FFF4;border:1px solid #A7F3C0}
+  .dont h4{color:var(--red);font-size:14px;margin-bottom:12px;letter-spacing:.5px}
+  .do h4{color:var(--green);font-size:14px;margin-bottom:12px;letter-spacing:.5px}
+  .dont li,.do li{font-size:14px;margin:6px 0 6px 18px;line-height:1.5;color:var(--dark)}
+
+  /* ── TABLE ── */
+  table{width:100%;border-collapse:collapse;border-radius:10px;overflow:hidden;font-size:14px;margin:20px 0}
+  th{background:var(--navy);color:#fff;padding:12px 16px;text-align:left;font-weight:600;font-size:13px}
+  td{padding:11px 16px;border-bottom:1px solid #E8ECF0;line-height:1.5;vertical-align:top}
+  tr:nth-child(even) td{background:#F8F9FB}
+  tr:last-child td{border-bottom:none}
+  td.emoji-cell{font-size:24px;text-align:center;padding:8px}
+
+  /* ── AVATAR STATS ── */
+  .avatar-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:32px}
+  .avatar-stat{background:var(--navy);border-radius:10px;padding:20px 12px;text-align:center}
+  .avatar-stat .av-num{font-size:36px;font-weight:800;color:var(--orange);line-height:1}
+  .avatar-stat .av-lbl{font-size:12px;color:rgba(255,255,255,.6);margin-top:4px;line-height:1.3}
+
+  /* ── AUDIENCE RINGS ── */
+  .rings{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0}
+  .ring-card{border-radius:12px;padding:24px;border:2px solid transparent}
+  .ring-card .ring-emoji{font-size:32px;margin-bottom:8px}
+  .ring-card .ring-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px}
+  .ring-card .ring-title{font-size:18px;font-weight:700;margin-bottom:4px}
+  .ring-card .ring-size{font-size:12px;font-style:italic;margin-bottom:8px;opacity:.7}
+  .ring-card .ring-angle{font-size:13px;line-height:1.5}
+
+  /* ── FUNNEL ── */
+  .funnel{display:grid;gap:0}
+  .funnel-step{display:grid;grid-template-columns:80px 1fr 1fr 1fr;gap:0;border-bottom:1px solid #E0E4EC}
+  .funnel-step:last-child{border-bottom:none}
+  .funnel-step > div{padding:20px 20px;border-right:1px solid #E0E4EC}
+  .funnel-step > div:last-child{border-right:none}
+  .funnel-emoji{font-size:36px;display:flex;align-items:center;justify-content:center;background:#F8F9FB}
+  .funnel-stage{font-weight:700;font-size:15px;line-height:1.3}
+  .funnel-stage small{display:block;font-weight:400;font-size:12px;color:var(--gray);margin-top:4px;font-style:italic}
+  .funnel-concept{font-size:14px;line-height:1.6}
+  .funnel-goal{font-size:13px;color:var(--gray);font-style:italic;line-height:1.5}
+
+  /* ── WEEK PLAN ── */
+  .weeks{display:grid;gap:16px}
+  .week{display:grid;grid-template-columns:100px 1fr;gap:0;border-radius:12px;overflow:hidden;border:1px solid #E0E4EC}
+  .week-num{padding:20px;display:flex;align-items:center;justify-content:center;flex-direction:column}
+  .week-num .wn{font-size:36px;font-weight:900;color:#fff;line-height:1}
+  .week-num .ws{font-size:11px;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:1px}
+  .week-body{padding:20px 24px;background:#fff;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+  .week-item label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gray);display:block;margin-bottom:4px}
+  .week-item .wi-val{font-size:14px;line-height:1.5;color:var(--dark)}
+
+  /* ── CHECKLIST ── */
+  .checks{display:grid;gap:16px}
+  .check-item{display:grid;grid-template-columns:56px 1fr;border-radius:12px;overflow:hidden;border:1px solid #E0E4EC}
+  .check-num{background:var(--orange);display:flex;align-items:center;justify-content:center;
+    font-size:28px;font-weight:800;color:#fff}
+  .check-body{padding:20px 24px;background:#fff}
+  .check-body .check-q{font-size:15px;font-weight:600;color:var(--navy);margin-bottom:6px}
+  .check-body .check-how{font-size:13px;color:var(--gray);font-style:italic}
+
+  /* ── NOME CHICLETE BADGE ── */
+  .nome-badge{display:inline-flex;align-items:center;gap:16px;border-radius:10px;overflow:hidden;margin:16px 0}
+  .nome-badge .nb-name{padding:14px 24px;font-size:22px;font-weight:800;color:#fff}
+  .nome-badge .nb-why{padding:14px 20px;font-size:13px;font-style:italic;color:var(--gray);background:#F5F5F5;max-width:500px;line-height:1.5}
+
+  /* ── CONCEPT FOOTER STRIP ── */
+  .concept-footer{display:grid;grid-template-columns:1fr 1fr 1fr;border-radius:10px;overflow:hidden;margin-top:24px;border:1px solid #E0E4EC}
+  .cf-item{padding:18px 20px;border-right:1px solid #E0E4EC}
+  .cf-item:last-child{border-right:none;background:#F8F9FB}
+  .cf-item .cf-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#aaa;margin-bottom:6px}
+  .cf-item .cf-val{font-size:15px;font-weight:700;line-height:1.4}
+
+  /* ── SCROLL INDICATOR ── */
+  .scroll-hint{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
+    color:rgba(255,255,255,.4);font-size:12px;letter-spacing:1px;text-align:center;
+    animation:bounce 2s infinite}
+  @keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+
+  /* ── PRODUCT BADGE ── */
+  .product-row{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  .big-num-row{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin:32px 0}
+  .big-num-card{border-radius:12px;padding:28px 20px;text-align:center}
+  .big-num-card .bn{font-size:64px;font-weight:900;line-height:1}
+  .big-num-card .bl{font-size:13px;font-style:italic;margin-top:4px;opacity:.75}
+
+  @media(max-width:900px){
+    nav{display:none}
+    main{margin-left:0}
+    .cards.col2,.cards.col3,.dontdo,.rings,.product-row,.big-num-row,.avatar-grid{grid-template-columns:1fr}
+    .funnel-step{grid-template-columns:1fr}
+    .week-body{grid-template-columns:1fr}
+    .platform-strip{grid-template-columns:80px 1fr}
+  }
+</style>
+</head>
+<body>
+
+<!-- ── SIDEBAR NAV ── -->
+<nav id="sidebar">
+  <div class="logo">
+    <span>GLYCOSEPT</span>
+    <small>Campaign Playbook</small>
+  </div>
+  <div class="nav-label">Seções</div>
+  <a href="#hero" class="active">🏠 Capa</a>
+  <a href="#produto">01 — O Produto</a>
+  <a href="#avatar">02 — O Avatar</a>
+  <a href="#publicos">03 — Públicos</a>
+  <a href="#c2">04 — Interruptor</a>
+  <a href="#c5">05 — Espelho</a>
+  <a href="#c7">06 — Gêmeo</a>
+  <a href="#funil">07 — Funil</a>
+  <a href="#implementacao">08 — Implementação</a>
+  <a href="#checklist">09 — Checklist</a>
+</nav>
+
+<!-- ── MAIN ── -->
+<main>
+
+<!-- ══ HERO ══ -->
+<section id="hero" style="padding:0;border:none">
+  <div id="particles-hero"></div>
+  <div class="hero-content">
+    <div class="sec-label" style="color:rgba(255,255,255,.5)">Atlas ADS × BrainHoney</div>
+    <h1>GLYCOSEPT</h1>
+    <div class="sub">Campaign Playbook</div>
+    <div class="divider-line"></div>
+    <p class="tagline">3 conceitos validados · 6 públicos mapeados · hooks prontos para veicular</p>
+    <div class="stats-row">
+      <div class="stat-box"><div class="num">1.632</div><div class="lbl">participantes<br>no estudo</div></div>
+      <div class="stat-box"><div class="num">97%</div><div class="lbl">normalizaram<br>o GLP-1</div></div>
+      <div class="stat-box"><div class="num">312%</div><div class="lbl">diferença GLP-1<br>estudo dos gêmeos</div></div>
+      <div class="stat-box"><div class="num">96%</div><div class="lbl">reduziram A1c<br>em 12 semanas</div></div>
+    </div>
+  </div>
+  <div class="scroll-hint">▼ role para começar</div>
+</section>
+
+<!-- ══ 01 — PRODUTO ══ -->
+<section id="produto">
+  <div class="sec-label">01</div>
+  <h2 class="sec-title">O Produto em <span>30 Segundos</span></h2>
+  <p class="sec-sub">Tudo que a equipe precisa saber antes de escrever uma linha de copy</p>
+
+  <div class="product-row">
+    <div>
+      <table>
+        <tr><th colspan="2">GLYCOSEPT — FICHA TÉCNICA</th></tr>
+        <tr><td><strong>Formato</strong></td><td>Cápsula diária</td></tr>
+        <tr><td><strong>Ingredientes</strong></td><td>MGO Manuka Honey · Quercetina · Pinosembrina · Geleia Real</td></tr>
+        <tr><td><strong>MUP (problema)</strong></td><td>Lama tóxica que cobre receptores de GLP-1 no pâncreas</td></tr>
+        <tr><td><strong>MUS (solução)</strong></td><td>4 ingredientes dissolvem a lama → GLP-1 restaurado → pâncreas responde</td></tr>
+        <tr><td><strong>Estudo</strong></td><td>Duplo-cego · 1.632 participantes · Journal of Metabolic Health</td></tr>
+        <tr><td><strong>Garantia</strong></td><td>60 dias — devolução total</td></tr>
+        <tr><td><strong>Preço</strong></td><td>R$49/frasco (kit 6 frascos)</td></tr>
+        <tr><td><strong>Autoridade</strong></td><td>Dr. William Lee (Harvard) · Dr. Gerald Shulman (Yale)</td></tr>
+      </table>
+    </div>
+    <div>
+      <div class="dontdo" style="margin:0">
+        <div class="dont">
+          <h4>✗ NÃO POSICIONE ASSIM</h4>
+          <ul>
+            <li>Suplemento que <em>controla</em> o açúcar</li>
+            <li>"Natural e sem efeitos colaterais"</li>
+            <li>"Baixa o açúcar no sangue"</li>
+            <li>Produto entre outros suplementos</li>
+          </ul>
+        </div>
+        <div class="do">
+          <h4>✓ POSICIONE ASSIM</h4>
+          <ul>
+            <li>Protocolo que <em>reverte</em> o bloqueio do GLP-1</li>
+            <li>Age na <em>causa</em>, não no sintoma</li>
+            <li>O pâncreas volta a <em>funcionar</em></li>
+            <li>Protocolo com nome próprio e dado de estudo</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 02 — AVATAR ══ -->
+<section id="avatar">
+  <div class="sec-label">02</div>
+  <h2 class="sec-title">O Avatar — <span>José Carlos</span></h2>
+  <p class="sec-sub">O lead real que vai receber cada anúncio. Conheça ele de cor.</p>
+
+  <div class="avatar-grid">
+    <div class="avatar-stat"><div class="av-num">57</div><div class="av-lbl">anos de idade</div></div>
+    <div class="avatar-stat"><div class="av-num">8.2</div><div class="av-lbl">A1c atual (fora do controle)</div></div>
+    <div class="avatar-stat"><div class="av-num">9</div><div class="av-lbl">anos de metformin</div></div>
+    <div class="avatar-stat"><div class="av-num">R$280</div><div class="av-lbl">gasto mensal em medicação</div></div>
+    <div class="avatar-stat"><div class="av-num">2</div><div class="av-lbl">netos (não consegue correr com eles)</div></div>
+    <div class="avatar-stat"><div class="av-num">1</div><div class="av-lbl">cunhado amputado — seu maior medo</div></div>
+  </div>
+
+  <div class="dontdo">
+    <div class="dont">
+      <h4>✗ O QUE FAZ ELE SAIR DO ANÚNCIO</h4>
+      <ul>
+        <li>Nome de produto em inglês (Grizzly, Protocol X)</li>
+        <li>Promessa absurda nos primeiros 3 segundos</li>
+        <li>Depoimentos com nomes americanos (Margaret, John)</li>
+        <li>Layout que parece empresa — logo, banner, jaleco</li>
+        <li>Linguagem de conspiração explícita</li>
+        <li>"Cura o diabetes" — dispara detector de fraude</li>
+      </ul>
+    </div>
+    <div class="do">
+      <h4>✓ O QUE FAZ ELE CLICAR</h4>
+      <ul>
+        <li>Cena que ele já viveu (neto, esposa, exame na mesa)</li>
+        <li>Inversão de culpa — não é fraqueza, é causa externa</li>
+        <li>Analogia cotidiana (disjuntor, cano entupido)</li>
+        <li>Número específico — 312%, 1.632, 97%</li>
+        <li>Depoimento com nome e cidade BR (Dona Amélia, SP)</li>
+        <li>Voz de primeira pessoa — parece post, não anúncio</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 03 — PÚBLICOS ══ -->
+<section id="publicos">
+  <div class="sec-label">03</div>
+  <h2 class="sec-title">Mapa de <span>Públicos</span></h2>
+  <p class="sec-sub">Do núcleo à expansão — mesmo produto, 6 ângulos diferentes</p>
+
+  <div class="rings">
+    <div class="ring-card" style="background:#FFF0F0;border-color:#FCCACA">
+      <div class="ring-emoji">🔴</div>
+      <div class="ring-label" style="color:var(--red)">Núcleo</div>
+      <div class="ring-title">Diabético tipo 2 com metformin</div>
+      <div class="ring-size">16M no Brasil · Base atual</div>
+      <div class="ring-angle"><strong>Ângulo:</strong> "Não é culpa sua. O sinal foi cortado."</div>
+    </div>
+    <div class="ring-card" style="background:#FFF5EE;border-color:#F0A070">
+      <div class="ring-emoji">🟠</div>
+      <div class="ring-label" style="color:var(--orange)">Anel 1</div>
+      <div class="ring-title">Pré-diabético (A1c 5.7–6.4)</div>
+      <div class="ring-size">3–4× maior que o núcleo · Sem remédio ainda</div>
+      <div class="ring-angle"><strong>Ângulo:</strong> "Está na beira. O GLP-1 já está caindo há anos."</div>
+    </div>
+    <div class="ring-card" style="background:#FFFDE7;border-color:#F0D060">
+      <div class="ring-emoji">🟡</div>
+      <div class="ring-label" style="color:var(--gold)">Anel 2</div>
+      <div class="ring-title">Família que compra para o outro</div>
+      <div class="ring-size">Alto — comprador ≠ usuário</div>
+      <div class="ring-angle"><strong>Ângulo:</strong> "Você está vendo alguém que ama desaparecer."</div>
+    </div>
+    <div class="ring-card" style="background:#F0FFF4;border-color:#A0D0A0">
+      <div class="ring-emoji">🟢</div>
+      <div class="ring-label" style="color:var(--green)">Anel 3</div>
+      <div class="ring-title">Usuário de Ozempic buscando saída</div>
+      <div class="ring-size">Crescente 2025–2026 · Alto engajamento</div>
+      <div class="ring-angle"><strong>Ângulo:</strong> "O original: sem agulha, sem conta mensal."</div>
+    </div>
+    <div class="ring-card" style="background:#F0F8FF;border-color:#90C0E0">
+      <div class="ring-emoji">🔵</div>
+      <div class="ring-label" style="color:var(--blue)">Anel 4</div>
+      <div class="ring-title">Desistente — parou de tentar</div>
+      <div class="ring-size">Invisível mas enorme · Tom completamente diferente</div>
+      <div class="ring-angle"><strong>Ângulo:</strong> "Para quem parou de acreditar. Sem julgamento."</div>
+    </div>
+    <div class="ring-card" style="background:#F5F0FF;border-color:#C0A0E0">
+      <div class="ring-emoji">🟣</div>
+      <div class="ring-label" style="color:#5B2C8D">Anel 5</div>
+      <div class="ring-title">Prevenção — histórico familiar</div>
+      <div class="ring-size">Médio-alto · Pai e avô tiveram</div>
+      <div class="ring-angle"><strong>Ângulo:</strong> "Meu pai tinha. Eu decidi mudar o trajeto."</div>
+    </div>
+  </div>
+
+  <table>
+    <tr><th>FASE</th><th>ANEL</th><th>QUANDO ATIVAR</th><th>CRIATIVO BASE</th></tr>
+    <tr><td>Fase 1 (agora)</td><td>🔴 Núcleo + 🟠 Anel 1</td><td>Semanas 1–4</td><td>Conceitos 2, 5, 7 com hooks validados</td></tr>
+    <tr><td>Fase 2</td><td>🟡 Anel 2 (família)</td><td>Após validar o criativo de escala</td><td>Conceito 5 adaptado — "você vê ela sumir"</td></tr>
+    <tr><td>Fase 3</td><td>🟢 Anel 3 (Ozempic)</td><td>Quando tiver prova social sólida</td><td>Comparativo direto sem conspiração</td></tr>
+    <tr><td>Fase 4</td><td>🔵🟣 Anéis 4 e 5</td><td>Após 60–90 dias de dados</td><td>Tom completamente novo — começar do zero</td></tr>
+  </table>
+</section>
+
+<!-- ══ 04 — CONCEITO 2 ══ -->
+<section id="c2">
+  <div class="band" style="background:var(--C2)">
+    <div class="num-badge" style="color:#fff">2</div>
+    <div>
+      <div class="band-title">O Interruptor Apagado</div>
+      <div class="band-sub">O pâncreas está intacto. O sinal foi cortado. Aqui está como religá-lo.</div>
+    </div>
+  </div>
+
+  <div class="nome-badge">
+    <div class="nb-name" style="background:var(--C2)">Protocolo GLP-Reset</div>
+    <div class="nb-why">"Reset" é universal — todo mundo sabe o que é resetar algo. GLP âncora no mecanismo real e verificável no Google.</div>
+  </div>
+
+  <h3 style="color:var(--C2);margin:24px 0 12px;font-size:15px;text-transform:uppercase;letter-spacing:1px">HOOKS POR PLATAFORMA</h3>
+
+  <div class="platform-strip">
+    <div class="plat-label" style="background:#1877F2">f<br>Face<br>book</div>
+    <div class="plat-text">Fiz algo que nenhum médico me pediu.
+
+Peguei todos os meus exames dos últimos 9 anos e coloquei lado a lado na mesa.
+
+Metformin. A1c 8.4.
+Metformin. A1c 8.1.
+Metformin. A1c 8.6.
+
+9 anos. O mesmo remédio. O mesmo resultado.
+
+Então perguntei pro meu médico: se esse remédio está funcionando, por que o A1c continua igual?
+
+Ele ficou em silêncio por 4 segundos.
+
+"Porque o metformin trata o açúcar que sobrou. Não o motivo pelo qual o açúcar sobe."
+
+Aquele silêncio mudou tudo.</div>
+  </div>
+
+  <div class="platform-strip">
+    <div class="plat-label" style="background:#000">TT<br>Tik<br>Tok</div>
+    <div class="plat-text">[0–2s] "9 anos de metformin. Resultado: zero." 🔌
+[2–5s] "Ninguém me contou que meu pâncreas estava intacto o tempo todo."
+[5–8s] "O problema nunca foi o órgão. Era o sinal que foi cortado."
+[8–15s] "É como o disjuntor da sua casa — a luz não acabou. Só o circuito foi interrompido."
+[CTA] Link na bio → Protocolo GLP-Reset</div>
+  </div>
+
+  <div class="platform-strip">
+    <div class="plat-label" style="background:#2CA5E0">TG<br>Tele<br>gram</div>
+    <div class="plat-text">⚡ O pâncreas de 97% dos diabéticos tipo 2 está intacto. O problema é o sinal hormonal que foi cortado por dentro — chamam de apagão metabólico.
+Um estudo com 1.632 pessoas encontrou 4 ingredientes que religam esse sinal em 12 semanas.
+O protocolo completo: [link]</div>
+  </div>
+
+  <div class="concept-footer">
+    <div class="cf-item" style="background:var(--C2)">
+      <div class="cf-label" style="color:rgba(255,255,255,.5)">EMOÇÃO PRINCIPAL</div>
+      <div class="cf-val" style="color:#fff">Raiva justa → Esperança técnica</div>
+    </div>
+    <div class="cf-item">
+      <div class="cf-label">CTA VENCEDOR</div>
+      <div class="cf-val">Ver por que meu A1c continuava subindo mesmo tomando remédio →</div>
+    </div>
+    <div class="cf-item">
+      <div class="cf-label">PLATAFORMA IDEAL</div>
+      <div class="cf-val">Facebook Feed · Cold Traffic principal</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 05 — CONCEITO 5 ══ -->
+<section id="c5">
+  <div class="band" style="background:var(--C5)">
+    <div class="num-badge" style="color:#fff">5</div>
+    <div>
+      <div class="band-title">O Espelho de 2 Anos</div>
+      <div class="band-sub">O diabetes não roubou só a saúde. Roubou quem você era. Isso pode ser revertido.</div>
+    </div>
+  </div>
+
+  <div class="nome-badge">
+    <div class="nb-name" style="background:var(--C5)">Método 1632</div>
+    <div class="nb-why">O número exato do estudo virou o nome. Específico demais para ser inventado — credibilidade embutida no próprio produto.</div>
+  </div>
+
+  <h3 style="color:var(--C5);margin:24px 0 12px;font-size:15px;text-transform:uppercase;letter-spacing:1px">HOOKS POR PLATAFORMA</h3>
+
+  <div class="platform-strip">
+    <div class="plat-label" style="background:#1877F2">f<br>Face<br>book<br><small style="font-size:10px">(masc.)</small></div>
+    <div class="plat-text">Meu neto me perguntou por que eu nunca corria com ele.
+
+Eu disse que estava cansado.
+
+Ele virou as costas e foi brincar sozinho.
+
+Eu fiquei olhando para ele correr, imóvel no meio do quintal.
+
+Não era dor física que me parava.
+Era a sensação de que eu tinha ficado velho antes da hora.
+
+Naquele dia eu parei de aceitar que "controlar" era o melhor que eu podia fazer.
+E encontrei o que realmente reverte — não controla — o que estava acontecendo.</div>
+  </div>
+
+  <div class="platform-strip">
+    <div class="plat-label" style="background:#1877F2">f<br>Face<br>book<br><small style="font-size:10px">(fem.)</small></div>
+    <div class="plat-text">Tem um momento específico em que você percebe que virou paciente da própria família.
+
+Não é quando recebe o diagnóstico.
+É quando sua filha começa a cortar seu alimento no prato.
+
+Passei 7 anos sendo a mãe que precisava de cuidado.
+Enquanto a minha função era cuidar.
+
+Até eu encontrar o que realmente corrigia a causa — não só o número.</div>
+  </div>
+
+  <div class="platform-strip">
+    <div class="plat-label" style="background:#000">TT<br>Tik<br>Tok</div>
+    <div class="plat-text">[0–3s SILÊNCIO] "Quando você parou de ser você?" 🪞
+[3–8s] "Tem uma coisa sobre o diabetes que ninguém fala. Não é o A1c. É quando você para de se reconhecer."
+[8–15s] "Eu percebi isso quando meu filho me convidou pra jogar bola com o neto. E eu inventei a sétima desculpa seguida."
+[15–20s] "Aquele dia eu decidi parar de controlar. E começar a reverter."
+[CTA] Método 1632 → link na bio</div>
+  </div>
+
+  <div class="concept-footer">
+    <div class="cf-item" style="background:var(--C5)">
+      <div class="cf-label" style="color:rgba(255,255,255,.5)">EMOÇÃO PRINCIPAL</div>
+      <div class="cf-val" style="color:#fff">Identidade perdida → Restauração</div>
+    </div>
+    <div class="cf-item">
+      <div class="cf-label">CTA VENCEDOR</div>
+      <div class="cf-val">Ver o que fez 1.632 pessoas se reconhecerem de volta →</div>
+    </div>
+    <div class="cf-item">
+      <div class="cf-label">PLATAFORMA IDEAL</div>
+      <div class="cf-val">Facebook Feed + Retargeting · Esp. mulheres</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 06 — CONCEITO 7 ══ -->
+<section id="c7">
+  <div class="band" style="background:var(--C7)">
+    <div class="num-badge" style="color:#fff">7</div>
+    <div>
+      <div class="band-title">O Gêmeo Saudável</div>
+      <div class="band-sub">Mesmo DNA. Um com diabetes, um sem. A diferença é um número: 312.</div>
+    </div>
+  </div>
+
+  <div class="nome-badge">
+    <div class="nb-name" style="background:var(--C7)">Protocolo 312</div>
+    <div class="nb-why">2 palavras. O número real do estudo (312% de diferença de GLP-1). Impossível de copiar sem citar a mesma fonte científica.</div>
+  </div>
+
+  <h3 style="color:var(--C7);margin:24px 0 12px;font-size:15px;text-transform:uppercase;letter-spacing:1px">HOOKS POR PLATAFORMA</h3>
+
+  <div class="platform-strip">
+    <div class="plat-label" style="background:#1877F2">f<br>Face<br>book</div>
+    <div class="plat-text">Meu irmão tem 61 anos. Nunca tomou remédio para diabetes na vida.
+
+Come arroz todo dia. A1c dele: 5.1.
+O meu, tomando metformin há 9 anos: 8.4.
+
+Passei anos achando que tinha herdado o "lado ruim" do sangue.
+
+Então li sobre 74 pares de gêmeos idênticos — DNA literalmente igual.
+Em todos os 74: um com diabetes. Um sem.
+
+Os pesquisadores esperavam diferença genética.
+Não encontraram nenhuma.
+
+O que encontraram foi um número: 312.
+
+E hormônios podem ser mudados.</div>
+  </div>
+
+  <div class="platform-strip">
+    <div class="plat-label" style="background:#000">TT<br>Tik<br>Tok</div>
+    <div class="plat-text">[0–2s] "74 pares de gêmeos: mesmo DNA, resultados opostos 🧬"
+[2–6s] "Pesquisadores estudaram 74 pares. DNA idêntico. Em todos: um diabético, um saudável."
+[6–10s] "A diferença não era genética. Era um hormônio — 312% diferente."
+[10–14s] "Diabetes tipo 2 não é genético. É hormonal. Hormônios mudam."
+[CTA] Protocolo 312 → link na bio</div>
+  </div>
+
+  <div class="platform-strip">
+    <div class="plat-label" style="background:#555">NAT<br>Native<br>Ads</div>
+    <div class="plat-text">DESCOBERTA: Estudo com 74 Pares de Gêmeos Idênticos Derruba Teoria Genética do Diabetes Tipo 2
+
+Pesquisadores da Universidade de Lund (Suécia) esperavam encontrar diferença genética.
+Não encontraram nenhuma.
+
+Encontraram uma diferença de 312% em um único hormônio: o GLP-1.
+
+"Diabetes tipo 2 não é condenação genética — é hormonal. E diferenças hormonais são tratáveis."
+
+O que eleva o GLP-1 em 312%?</div>
+  </div>
+
+  <div class="concept-footer">
+    <div class="cf-item" style="background:var(--C7)">
+      <div class="cf-label" style="color:rgba(255,255,255,.5)">EMOÇÃO PRINCIPAL</div>
+      <div class="cf-val" style="color:#fff">Injustiça → Possibilidade</div>
+    </div>
+    <div class="cf-item">
+      <div class="cf-label">CTA VENCEDOR</div>
+      <div class="cf-val">Descobrir o que separa os dois gêmeos — e como cruzar o lado →</div>
+    </div>
+    <div class="cf-item">
+      <div class="cf-label">PLATAFORMA IDEAL</div>
+      <div class="cf-val">Native Ads · Taboola · Facebook Artigo</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 07 — FUNIL ══ -->
+<section id="funil">
+  <div class="sec-label">07</div>
+  <h2 class="sec-title">Funil de <span>Tráfego</span></h2>
+  <p class="sec-sub">Quem vê o quê, em qual ordem — do primeiro contato à compra</p>
+
+  <div style="border:1px solid #E0E4EC;border-radius:12px;overflow:hidden">
+    <div class="funnel-step" style="background:var(--navy)">
+      <div style="padding:14px 20px;color:rgba(255,255,255,.6);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;display:flex;align-items:center">&#9679;</div>
+      <div style="padding:14px 20px;color:rgba(255,255,255,.8);font-size:12px;font-weight:700;text-transform:uppercase">ESTÁGIO</div>
+      <div style="padding:14px 20px;color:rgba(255,255,255,.8);font-size:12px;font-weight:700;text-transform:uppercase">CONCEITO + PLATAFORMA</div>
+      <div style="padding:14px 20px;color:rgba(255,255,255,.8);font-size:12px;font-weight:700;text-transform:uppercase">OBJETIVO</div>
+    </div>
+    <div class="funnel-step">
+      <div class="funnel-emoji">🥶</div>
+      <div><div class="funnel-stage">TOPO — Cold Traffic<small>Nunca viu o produto</small></div></div>
+      <div class="funnel-concept" style="color:var(--C2)">C2 — Interruptor (GLP-Reset)<br>C7 — Gêmeo (Protocolo 312)<br><small style="color:var(--gray)">Facebook Reels · TikTok · Taboola</small></div>
+      <div class="funnel-goal">Parar o scroll.<br>Plantar a dúvida.<br>Não mencionar produto.</div>
+    </div>
+    <div class="funnel-step">
+      <div class="funnel-emoji">🌡️</div>
+      <div><div class="funnel-stage">MEIO — Educação<small>Viu, ficou curioso</small></div></div>
+      <div class="funnel-concept" style="color:var(--C7)">C7 — Gêmeo (advertorial longo)<br>C2 — Interruptor (texto longo)<br><small style="color:var(--gray)">Facebook Feed · YouTube · Retargeting</small></div>
+      <div class="funnel-goal">Construir crença<br>no mecanismo GLP-1.</div>
+    </div>
+    <div class="funnel-step">
+      <div class="funnel-emoji">🔥</div>
+      <div><div class="funnel-stage">FUNDO — Identidade<small>Está considerando comprar</small></div></div>
+      <div class="funnel-concept" style="color:var(--C5)">C5 — Espelho (Método 1632)<br><small style="color:var(--gray)">Facebook Retargeting · Telegram · WhatsApp</small></div>
+      <div class="funnel-goal">Tocar o Deeper Core.<br>Criar urgência emocional.</div>
+    </div>
+    <div class="funnel-step" style="background:#F0FFF4">
+      <div class="funnel-emoji">💳</div>
+      <div><div class="funnel-stage">CONVERSÃO<small>Pronto para comprar</small></div></div>
+      <div class="funnel-concept">VSL Completo (Glycosept)<br>Depoimentos + Oferta<br><small style="color:var(--gray)">Landing Page</small></div>
+      <div class="funnel-goal">Fechar com prova<br>+ urgência real (60 dias).</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 08 — IMPLEMENTAÇÃO ══ -->
+<section id="implementacao">
+  <div class="sec-label">08</div>
+  <h2 class="sec-title">Plano de <span>Implementação</span></h2>
+  <p class="sec-sub">O que rodar na semana 1, 2, 3 e 4 — um conceito por vez</p>
+
+  <div style="background:#FFF0F0;border-radius:10px;padding:16px 20px;margin-bottom:28px;border-left:4px solid var(--red)">
+    <strong style="color:var(--red)">REGRA DE OURO:</strong> um conceito por semana. Um criativo por campanha. Os dados dizem qual escalar. Nunca rodar tudo ao mesmo tempo.
+  </div>
+
+  <div class="weeks">
+    <div class="week">
+      <div class="week-num" style="background:var(--C2)"><div class="wn">1</div><div class="ws">Semana</div></div>
+      <div class="week-body">
+        <div class="week-item"><label>Conceito</label><div class="wi-val">C2 — Interruptor<br><em style="color:var(--C2)">Protocolo GLP-Reset</em></div></div>
+        <div class="week-item"><label>Hook</label><div class="wi-val">"9 anos. O mesmo remédio. O mesmo resultado."</div></div>
+        <div class="week-item"><label>Plataforma + Meta</label><div class="wi-val">Facebook Feed + Reels<br>CTR acima de 1%</div></div>
+      </div>
+    </div>
+    <div class="week">
+      <div class="week-num" style="background:var(--C7)"><div class="wn">2</div><div class="ws">Semana</div></div>
+      <div class="week-body">
+        <div class="week-item"><label>Conceito</label><div class="wi-val">C7 — Gêmeo Saudável<br><em style="color:var(--C7)">Protocolo 312</em></div></div>
+        <div class="week-item"><label>Hook</label><div class="wi-val">"A1c 5.1 vs 8.4. Mesmo sangue. O que os separa é um número."</div></div>
+        <div class="week-item"><label>Plataforma + Meta</label><div class="wi-val">Native Ads (Taboola)<br>Scroll depth + VSL start rate</div></div>
+      </div>
+    </div>
+    <div class="week">
+      <div class="week-num" style="background:var(--C5)"><div class="wn">3</div><div class="ws">Semana</div></div>
+      <div class="week-body">
+        <div class="week-item"><label>Conceito</label><div class="wi-val">C5 — Espelho<br><em style="color:var(--C5)">Método 1632</em></div></div>
+        <div class="week-item"><label>Hook</label><div class="wi-val">"Ele virou as costas e foi brincar sozinho."</div></div>
+        <div class="week-item"><label>Plataforma + Meta</label><div class="wi-val">Facebook Retargeting<br>CPP e ROAS de retargeting</div></div>
+      </div>
+    </div>
+    <div class="week">
+      <div class="week-num" style="background:var(--navy)"><div class="wn">4</div><div class="ws">Semana</div></div>
+      <div class="week-body">
+        <div class="week-item"><label>Ação</label><div class="wi-val">Escalar o vencedor<br>das 3 semanas anteriores</div></div>
+        <div class="week-item"><label>Como</label><div class="wi-val">Dobrar verba no criativo de menor CPA</div></div>
+        <div class="week-item"><label>Expansão</label><div class="wi-val">Iniciar Anel 1<br>(pré-diabéticos)</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 09 — CHECKLIST ══ -->
+<section id="checklist">
+  <div class="sec-label">09</div>
+  <h2 class="sec-title">Checklist <span>Pré-Veiculação</span></h2>
+  <p class="sec-sub">5 perguntas. Se uma resposta for NÃO — o criativo não vai ao ar.</p>
+
+  <div class="checks">
+    <div class="check-item">
+      <div class="check-num">1</div>
+      <div class="check-body">
+        <div class="check-q">A primeira linha cria tensão não resolvida?</div>
+        <div class="check-how">Cubra tudo exceto a linha 1. Ela sozinha faz querer saber mais?</div>
+      </div>
+    </div>
+    <div class="check-item">
+      <div class="check-num">2</div>
+      <div class="check-body">
+        <div class="check-q">José Carlos se vê nessa cena em 3 segundos?</div>
+        <div class="check-how">Mostre para 3 pessoas do avatar. 2 disseram "isso aconteceu comigo"?</div>
+      </div>
+    </div>
+    <div class="check-item">
+      <div class="check-num">3</div>
+      <div class="check-body">
+        <div class="check-q">O produto não aparece nos primeiros 5 parágrafos?</div>
+        <div class="check-how">Conte os parágrafos. Produto antes do 6º = reescreve.</div>
+      </div>
+    </div>
+    <div class="check-item">
+      <div class="check-num">4</div>
+      <div class="check-body">
+        <div class="check-q">A voz é de pessoa, não de empresa?</div>
+        <div class="check-how">Troque "nosso produto" por "eu". O texto ainda faz sentido?</div>
+      </div>
+    </div>
+    <div class="check-item">
+      <div class="check-num">5</div>
+      <div class="check-body">
+        <div class="check-q">O nome chiclete aparece depois do mecanismo ser explicado?</div>
+        <div class="check-how">O nome confirma o que o lead já entendeu — nunca chega antes da explicação.</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:60px;padding:32px;border-radius:12px;background:var(--navy);text-align:center">
+    <div style="font-size:11px;color:rgba(255,255,255,.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px">Atlas ADS × BrainHoney</div>
+    <div style="font-size:28px;font-weight:800;color:#fff">GLYCOSEPT CAMPAIGN PLAYBOOK</div>
+    <div style="font-size:14px;color:rgba(255,255,255,.4);margin-top:6px">Documento Confidencial</div>
+  </div>
+</section>
+
+</main>
+
+<script>
+// ── PARTICLES HERO ──
+tsParticles.load("particles-hero",{
+  background:{color:{value:"transparent"}},
+  fullScreen:{enable:false},
+  fpsLimit:60,
+  particles:{
+    number:{value:120,density:{enable:true,width:800,height:600}},
+    color:{value:"#ffffff"},
+    opacity:{value:{min:0.05,max:0.5},animation:{enable:true,speed:1.5,sync:false}},
+    size:{value:{min:0.5,max:2.5}},
+    move:{enable:true,speed:{min:0.2,max:0.8},direction:"none",random:true,straight:false,outModes:"out"},
+    links:{enable:false},
+  },
+  detectRetina:true,
+});
+
+// ── ACTIVE NAV ON SCROLL ──
+const sections=document.querySelectorAll("section[id],div[id]");
+const navLinks=document.querySelectorAll("nav a");
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const id=e.target.getAttribute("id");
+      navLinks.forEach(a=>a.classList.toggle("active",a.getAttribute("href")==="#"+id));
+    }
+  });
+},{threshold:0.3});
+sections.forEach(s=>observer.observe(s));
+</script>
+</body>
+</html>
